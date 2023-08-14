@@ -38,25 +38,17 @@ private:
 	string _ten;
 	int _tuoi;
 	string _lang;
-	int* _nhanThuat;
+	string _nhanThuat[50];
 	int _soluongNhanthuat;
 public:
-	ninja(string ten, string lang, int tuoi,int soluongNhanthuat) {
+	ninja(string ten, string lang, int tuoi,int soluongNhanthuat) 
+	{
 
 		this->_ten = ten;
 		this->_lang = lang;
 		this->_tuoi = tuoi;
 		this->_soluongNhanthuat = soluongNhanthuat;
-		this->_nhanThuat = new int[_soluongNhanthuat];
 	}
-	/*ninja() {
-
-		_ten = "";
-		_lang = "";
-		_tuoi = 0;
-		_soluongNhanthuat = 10;
-		_nhanThuat = new int[_soluongNhanthuat];
-	}*/
 	~ninja()
 	{
 		delete[] _nhanThuat;
@@ -83,9 +75,60 @@ public:
 		out << "Ten" << this->_ten << endl;
 		out << "Tuoi" << this->_tuoi << endl;
 	}
-	int learnSkill(int _soluongNhanthuat)
+	void learnSkill(const string& newSkill)
 	{
-		
+		if (_soluongNhanthuat < 50)
+		{
+			_nhanThuat[_soluongNhanthuat++] = newSkill;
+		}
+	}
+	void showSkill()
+	{
+		cout << "Nhan thuat da hoc: ";
+		for (int i = 0; i < _soluongNhanthuat; i++)
+		{
+			cout << _nhanThuat[i] << " ";
+		}
+	}
+	friend istream& operator>>(istream& in, ninja& x)
+	{
+		in >> x._ten;
+		in >> x._tuoi;
+		in >> x._lang;
+	
+	}
+	friend ostream& operator<<(ostream& out, const ninja& x)
+	{
+		out << x._ten << " " << x._tuoi << " " << x._lang;
+		return out;
+	}
+	
+};
+class gennin : public ninja
+{
+private:
+	string _capBac;
+	string _nhiemVu;
+public:
+	gennin(string ten, string lang, int tuoi, int soluongNhanthuat) : ninja(ten, lang, tuoi, soluongNhanthuat) {}
+	void capBac(string tmp)
+	{
+		_capBac = tmp;
+	}
+	void nhienVu(string tmp)
+	{
+		_nhiemVu = tmp;
 	}
 };
+class naruto : public gennin
+{   
+private:
+	string _capBac;
+	string _nhiemVu;
+public:
+	naruto(string ten, string lang, int tuoi, int soluongNhanthuat) : gennin(ten, lang, tuoi, soluongNhanthuat) {}
+};
+
+
+
 #endif // !ninjaworld
